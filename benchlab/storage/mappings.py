@@ -79,7 +79,16 @@ INDEX_MAPPING = {
             # Evaluation summary
             "evaluation_summary": {
                 "properties": {
-                    "mean_scores": {"type": "object", "enabled": False},
+                    "mean_scores": {
+                        "properties": {
+                            "coherence": {"type": "float"},
+                            "accuracy": {"type": "float"},
+                            "relevance": {"type": "float"},
+                            "completeness": {"type": "float"},
+                            "conciseness": {"type": "float"},
+                            "helpfulness": {"type": "float"},
+                        }
+                    },
                     "median_scores": {"type": "object", "enabled": False},
                     "std_scores": {"type": "object", "enabled": False},
                     "composite_score": {"type": "float"},
