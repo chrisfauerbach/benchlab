@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "prompts": [
+    {
+      "id": "coding-001",
+      "name": "FizzBuzz Implementation",
+      "category": "coding",
+      "input_text": "Write a Python function called fizzbuzz that takes an integer n and returns a list of strings from 1 to n. For multiples of 3, use 'Fizz', for multiples of 5 use 'Buzz', and for multiples of both use 'FizzBuzz'. Otherwise use the string representation of the number.",
+      "expected_output": "A Python function that correctly implements the FizzBuzz logic",
+      "tags": ["python", "algorithms", "basics"],
+      "difficulty": "easy",
+      "max_tokens": 512,
+      "temperature": 0.3
+    },
+    {
+      "id": "coding-002",
+      "name": "Binary Search",
+      "category": "coding",
+      "input_text": "Implement a binary search function in Python that takes a sorted list and a target value. Return the index if found, or -1 if not found. Include proper handling of edge cases.",
+      "expected_output": "A correct binary search implementation with O(log n) time complexity",
+      "tags": ["python", "algorithms", "searching"],
+      "difficulty": "medium",
+      "max_tokens": 1024,
+      "temperature": 0.3
+    },
+    {
+      "id": "coding-003",
+      "name": "LRU Cache",
+      "category": "coding",
+      "input_text": "Design and implement an LRU (Least Recently Used) cache in Python. It should support get(key) and put(key, value) operations, both in O(1) time complexity. The cache should have a configurable maximum capacity.",
+      "expected_output": "An LRU cache implementation using OrderedDict or a combination of dict and doubly linked list",
+      "tags": ["python", "data-structures", "design"],
+      "difficulty": "hard",
+      "max_tokens": 2048,
+      "temperature": 0.3
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Elasticsearch data
+esdata/
+
+# Logs
+*.log
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "prompts": [
+    {
+      "id": "reasoning-001",
+      "name": "Logic Puzzle",
+      "category": "reasoning",
+      "input_text": "Three friends - Alice, Bob, and Carol - each have a different pet (cat, dog, fish) and a different favorite color (red, blue, green). Alice doesn't like red. The person with the cat likes blue. Bob has the dog. Carol likes green. Who has which pet and what is their favorite color?",
+      "expected_output": "Alice: cat, blue. Bob: dog, red. Carol: fish, green.",
+      "tags": ["logic", "deduction"],
+      "difficulty": "medium",
+      "max_tokens": 1024,
+      "temperature": 0.5
+    },
+    {
+      "id": "reasoning-002",
+      "name": "Mathematical Reasoning",
+      "category": "reasoning",
+      "input_text": "A farmer has chickens and cows. He counts 30 heads and 80 legs total. How many chickens and how many cows does he have? Show your step-by-step reasoning.",
+      "expected_output": "20 chickens and 10 cows",
+      "tags": ["math", "algebra", "word-problems"],
+      "difficulty": "easy",
+      "max_tokens": 1024,
+      "temperature": 0.3
+    },
+    {
+      "id": "reasoning-003",
+      "name": "Causal Reasoning",
+      "category": "reasoning",
+      "input_text": "A city implemented a new traffic light system. Accidents decreased by 30%, but average commute times increased by 15%. Traffic complaints to the city council doubled. Analyze the possible causal relationships between these observations and suggest what might be happening.",
+      "tags": ["causal-reasoning", "analysis"],
+      "difficulty": "hard",
+      "max_tokens": 2048,
+      "temperature": 0.7
+    }
+  ]
+}

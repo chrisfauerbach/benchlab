@@ -1,0 +1,12 @@
+# GPU passthrough for Ollama (NVIDIA)
+# This file is automatically loaded by docker compose.
+# Remove or rename to disable GPU support.
+services:
+  ollama:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "prompts": [
+    {
+      "id": "creative-001",
+      "name": "Short Story",
+      "category": "creative",
+      "input_text": "Write a short story (about 200 words) about a robot who discovers it can dream. The story should have a clear beginning, middle, and end.",
+      "tags": ["fiction", "creative-writing"],
+      "difficulty": "medium",
+      "max_tokens": 1024,
+      "temperature": 0.9
+    },
+    {
+      "id": "creative-002",
+      "name": "Technical Explanation for Children",
+      "category": "creative",
+      "input_text": "Explain how the internet works to a 7-year-old child. Use simple analogies and keep it under 150 words.",
+      "tags": ["explanation", "simplification"],
+      "difficulty": "easy",
+      "max_tokens": 512,
+      "temperature": 0.7
+    },
+    {
+      "id": "creative-003",
+      "name": "Persuasive Argument",
+      "category": "creative",
+      "input_text": "Write a compelling argument for why learning a musical instrument should be mandatory in schools. Include at least three distinct supporting points with evidence or reasoning.",
+      "tags": ["persuasion", "argumentation"],
+      "difficulty": "medium",
+      "max_tokens": 1536,
+      "temperature": 0.7
+    }
+  ]
+}
