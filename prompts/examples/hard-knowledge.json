@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "prompts": [
+    {
+      "id": "hard-knowledge-001",
+      "name": "Cross-Domain Synthesis",
+      "category": "reasoning",
+      "input_text": "Explain how the second law of thermodynamics relates to information theory (Shannon entropy), and then connect both to the concept of evolution by natural selection. Your answer should:\n1. Define entropy in both thermodynamic and information-theoretic terms\n2. Explain the mathematical relationship between Boltzmann entropy and Shannon entropy\n3. Explain how biological evolution appears to decrease entropy locally while remaining consistent with the second law\n4. Give a concrete quantitative example showing entropy calculations in at least one domain",
+      "tags": ["physics", "information-theory", "biology", "synthesis"],
+      "difficulty": "hard",
+      "max_tokens": 3000,
+      "temperature": 0.5
+    },
+    {
+      "id": "hard-knowledge-002",
+      "name": "Historical Counterfactual Analysis",
+      "category": "reasoning",
+      "input_text": "If the printing press had not been invented in Europe in the 15th century, analyze the likely impact on:\n1. The Protestant Reformation\n2. The Scientific Revolution\n3. European colonialism\n4. The development of democratic governance\n\nFor each, provide a specific causal chain explaining the mechanism of impact, cite at least one real historical event that depended on printing, and propose the most likely alternative trajectory. Conclude by arguing which of the four would have been most altered and why.",
+      "tags": ["history", "counterfactual", "causal-analysis"],
+      "difficulty": "hard",
+      "max_tokens": 3000,
+      "temperature": 0.7
+    },
+    {
+      "id": "hard-knowledge-003",
+      "name": "Technical Architecture Critique",
+      "category": "reasoning",
+      "input_text": "A startup proposes the following architecture for a real-time chat application serving 10 million concurrent users:\n\n- Single PostgreSQL database for all messages and user data\n- WebSocket connections terminated at a single NGINX instance\n- Messages stored as JSON blobs in a TEXT column\n- User authentication via JWT tokens that never expire\n- All messages encrypted with a single AES key stored in the application code\n- Horizontal scaling planned by adding read replicas\n\nIdentify every architectural flaw, explain why it will fail at scale, rate the severity of each (critical/high/medium), and propose a specific fix for each. Then sketch a revised architecture that would actually handle 10M concurrent users.",
+      "tags": ["system-design", "architecture", "scalability", "security"],
+      "difficulty": "hard",
+      "max_tokens": 3000,
+      "temperature": 0.5
+    },
+    {
+      "id": "hard-knowledge-004",
+      "name": "Nuanced Ethical Dilemma",
+      "category": "reasoning",
+      "input_text": "A pharmaceutical company has developed a drug that cures a rare fatal disease affecting 10,000 people worldwide. Development cost $2 billion. They price it at $200,000 per treatment. At this price, only patients in wealthy countries can afford it. A generic manufacturer in India offers to produce it for $500 per dose but this would violate the patent.\n\nAnalyze this from exactly four ethical frameworks:\n1. Utilitarianism (act and rule variants — show how they may disagree)\n2. Kantian deontological ethics\n3. Rawlsian justice (veil of ignorance)\n4. Virtue ethics\n\nFor each framework, arrive at a clear recommendation (allow generic or enforce patent), show the strongest counterargument within that framework, and explain why the framework still favors your conclusion. End by stating which framework you find most compelling for this case and why.",
+      "tags": ["ethics", "philosophy", "healthcare", "analysis"],
+      "difficulty": "hard",
+      "max_tokens": 3000,
+      "temperature": 0.7
+    }
+  ]
+}

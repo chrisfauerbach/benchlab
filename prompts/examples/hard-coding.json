@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "prompts": [
+    {
+      "id": "hard-coding-001",
+      "name": "Graph Algorithm with Edge Cases",
+      "category": "coding",
+      "input_text": "Implement Dijkstra's shortest path algorithm in Python that handles the following:\n- Directed weighted graph represented as an adjacency list\n- Negative weight detection (raise ValueError if found)\n- Disconnected nodes (return infinity for unreachable nodes)\n- Path reconstruction (return both distances and the actual path)\n- Time complexity must be O((V + E) log V) using a min-heap\n\nProvide the implementation with type hints, then demonstrate it works with this graph:\n  A --(1)--> B --(2)--> D\n  A --(4)--> C --(1)--> D\n  B --(5)--> C\n  D --(3)--> E\n\nShow shortest paths from A to all nodes and the path from A to E.",
+      "expected_output": "Correct Dijkstra implementation using heapq with path reconstruction. A->B=1, A->C=4, A->D=3 (via A->B->D), A->E=6 (via A->B->D->E).",
+      "tags": ["python", "algorithms", "graphs", "dijkstra"],
+      "difficulty": "hard",
+      "max_tokens": 3000,
+      "temperature": 0.2
+    },
+    {
+      "id": "hard-coding-002",
+      "name": "Concurrent Data Structure",
+      "category": "coding",
+      "input_text": "Implement a thread-safe bounded blocking queue in Python with the following requirements:\n\n1. `put(item, timeout=None)` - blocks if full, raises TimeoutError if timeout expires\n2. `get(timeout=None)` - blocks if empty, raises TimeoutError if timeout expires\n3. `size()` - returns current number of items\n4. `close()` - signals no more items will be added; pending `get()` calls should raise a `QueueClosed` exception once empty\n\nUse only `threading` module primitives (Lock, Condition), not `queue.Queue`.\n\nThen write a producer-consumer test that demonstrates:\n- 3 producers each adding 10 items\n- 2 consumers processing items\n- Graceful shutdown using close()\n- Verify all 30 items were processed",
+      "tags": ["python", "concurrency", "threading", "data-structures"],
+      "difficulty": "hard",
+      "max_tokens": 3000,
+      "temperature": 0.2
+    },
+    {
+      "id": "hard-coding-003",
+      "name": "Recursive Descent Parser",
+      "category": "coding",
+      "input_text": "Write a recursive descent parser in Python for a simple expression language that supports:\n- Integers and floating-point numbers\n- Binary operators: +, -, *, / (with correct precedence and left-associativity)\n- Parenthesized expressions\n- Unary minus (e.g., -5, -(3+2))\n- Variable names (single lowercase letters a-z)\n\nThe parser should:\n1. Tokenize the input string\n2. Parse into an AST (use dataclasses for nodes)\n3. Include an `evaluate(ast, variables)` function that takes a dict of variable values\n4. Raise a clear SyntaxError with position info on invalid input\n\nDemonstrate with: evaluate(\"3 + x * -(y + 2)\", {\"x\": 4, \"y\": 1}) should equal -9.",
+      "tags": ["python", "parsing", "compilers", "ast"],
+      "difficulty": "hard",
+      "max_tokens": 3000,
+      "temperature": 0.2
+    },
+    {
+      "id": "hard-coding-004",
+      "name": "Debug Broken Code",
+      "category": "coding",
+      "input_text": "The following Python function is supposed to find the kth smallest element in an unsorted list using the Quickselect algorithm (expected O(n) time). It has exactly 4 bugs. Find all 4 bugs, explain each one, and provide the corrected code.\n\n```python\ndef quickselect(arr, k):\n    if len(arr) == 1:\n        return arr[0]\n    \n    pivot = arr[len(arr) // 2]\n    \n    lows = [x for x in arr if x < pivot]\n    highs = [x for x in arr if x > pivot]\n    pivots = [x for x in arr if x == pivot]\n    \n    if k < len(lows):\n        return quickselect(lows, k)\n    elif k < len(lows) + len(pivots):\n        return pivots[0]\n    else:\n        return quickselect(highs, k)\n\n# Test: should return 3 (the 3rd smallest in [7,2,5,3,1,6,4])\nprint(quickselect([7, 2, 5, 3, 1, 6, 4], 3))\n```\n\nHint: Consider what k represents, edge cases with empty sublists, and what happens with duplicate elements.",
+      "expected_output": "Bug 1: k should be 1-indexed or the docstring/test is wrong (k=3 should find 3rd smallest = 3, but 0-indexed gives 4th). Bug 2: The recursive call to highs doesn't adjust k (should be k - len(lows) - len(pivots)). Bug 3: No handling for empty arr. Bug 4: The test expects 3 but k=3 with 0-indexing returns 4.",
+      "tags": ["python", "debugging", "algorithms", "quickselect"],
+      "difficulty": "hard",
+      "max_tokens": 2048,
+      "temperature": 0.2
+    }
+  ]
+}

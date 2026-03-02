@@ -16,11 +16,13 @@ target_models:
     display_name: "Mistral 7B"
   - name: "deepseek-r1:8b"
     display_name: "DeepSeek R1 8B"
+  - name: "phi3:mini"
+    display_name: "Phi-3 Mini"
 
 evaluation:
   enabled: true
   evaluator_models:
-    - "llama3.2:3b"
+    - "deepseek-r1:8b"
   scoring_dimensions:
     - name: coherence
       weight: 1.0

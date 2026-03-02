@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "prompts": [
+    {
+      "id": "hard-reasoning-001",
+      "name": "Multi-Step Constraint Satisfaction",
+      "category": "reasoning",
+      "input_text": "Five houses in a row are painted different colors: blue, green, red, white, yellow. Each house's owner drinks a different beverage (beer, coffee, milk, tea, water), smokes a different brand (Blends, BlueMaster, Dunhill, Pall Mall, Prince), and keeps a different pet (bird, cat, dog, fish, horse).\n\n1. The Brit lives in the red house.\n2. The Swede keeps dogs.\n3. The Dane drinks tea.\n4. The green house is immediately to the left of the white house.\n5. The green house's owner drinks coffee.\n6. The person who smokes Pall Mall rears birds.\n7. The owner of the yellow house smokes Dunhill.\n8. The man living in the center house drinks milk.\n9. The Norwegian lives in the first house.\n10. The man who smokes Blends lives next to the one who keeps cats.\n11. The man who keeps the horse lives next to the man who smokes Dunhill.\n12. The owner who smokes BlueMaster drinks beer.\n13. The German smokes Prince.\n14. The Norwegian lives next to the blue house.\n15. The man who smokes Blends has a neighbor who drinks water.\n\nWho owns the fish? Show your complete reasoning step by step.",
+      "expected_output": "The German owns the fish.",
+      "tags": ["logic", "constraint-satisfaction", "einstein-puzzle"],
+      "difficulty": "hard",
+      "max_tokens": 3000,
+      "temperature": 0.3
+    },
+    {
+      "id": "hard-reasoning-002",
+      "name": "Probabilistic Reasoning",
+      "category": "reasoning",
+      "input_text": "A disease affects 1 in 10,000 people. A test for the disease has a 99% true positive rate (sensitivity) and a 99.5% true negative rate (specificity). You test positive.\n\nPart 1: What is the probability you actually have the disease? Show the full Bayesian calculation.\nPart 2: If you take a second independent test and it also comes back positive, what is the updated probability?\nPart 3: A hospital decides to screen all 100,000 employees. How many false positives should they expect? Is mass screening a good idea? Justify your answer quantitatively.",
+      "expected_output": "Part 1: ~1.96% (using Bayes theorem). Part 2: ~80% after second positive. Part 3: ~500 false positives vs ~10 true positives, so mass screening produces mostly false positives.",
+      "tags": ["probability", "bayes-theorem", "medical-reasoning"],
+      "difficulty": "hard",
+      "max_tokens": 2048,
+      "temperature": 0.3
+    },
+    {
+      "id": "hard-reasoning-003",
+      "name": "Logical Paradox Analysis",
+      "category": "reasoning",
+      "input_text": "Consider the following three statements made by three people:\n- Alice says: \"Exactly one of us is lying.\"\n- Bob says: \"Exactly two of us are lying.\"\n- Carol says: \"All three of us are lying.\"\n\nDetermine which people are telling the truth and which are lying. Prove that your answer is the only consistent solution by systematically considering all possible cases.",
+      "expected_output": "Bob is telling the truth; Alice and Carol are lying. This is the only consistent assignment.",
+      "tags": ["logic", "paradox", "truth-tellers"],
+      "difficulty": "hard",
+      "max_tokens": 2048,
+      "temperature": 0.3
+    },
+    {
+      "id": "hard-reasoning-004",
+      "name": "Temporal Reasoning with Ambiguity",
+      "category": "reasoning",
+      "input_text": "Read the following sequence of events and answer the questions:\n\n- On Monday, Project Alpha was started before Project Beta.\n- On Tuesday, the team that finished Project Beta started Project Gamma.\n- Project Delta requires both Alpha and Gamma to be complete.\n- Alpha takes 3 days, Beta takes 2 days, Gamma takes 1 day, Delta takes 2 days.\n- Only one project can be actively worked on at a time per team.\n- There are exactly two teams available.\n\nQuestions:\n1. What is the earliest day Delta can start?\n2. What is the earliest day all projects are complete?\n3. If a third team becomes available on Wednesday, does the completion date change? Why or why not?\n4. Draw the critical path and identify which project, if delayed by one day, would delay the entire schedule.",
+      "tags": ["scheduling", "critical-path", "temporal-reasoning"],
+      "difficulty": "hard",
+      "max_tokens": 2048,
+      "temperature": 0.3
+    }
+  ]
+}
