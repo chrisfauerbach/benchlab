@@ -8,6 +8,7 @@ import { PromptDetail } from '@/pages/PromptDetail'
 import { PromptsList } from '@/pages/PromptsList'
 import { ResultDetail } from '@/pages/ResultDetail'
 import { OllamaModels } from '@/pages/OllamaModels'
+import { StartRun } from '@/pages/StartRun'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/run" element={<StartRun />} />
           <Route path="/batches/:id" element={<BatchDetail />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/models" element={<ModelComparison />} />

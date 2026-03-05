@@ -16,6 +16,7 @@ class StreamChunk:
     """A parsed chunk from the Ollama streaming response."""
 
     content: str = ""
+    thinking: str = ""
     done: bool = False
     raw: dict[str, Any] = field(default_factory=dict)
 
@@ -25,6 +26,7 @@ class OllamaResponse:
     """Aggregated response from a completed Ollama generation."""
 
     content: str = ""
+    thinking: str = ""
     model: str = ""
     done: bool = True
 
@@ -85,8 +87,10 @@ class OllamaClient:
                     continue
                 import json
                 data = json.loads(line)
+                msg = data.get("message", {})
                 chunk = StreamChunk(
-                    content=data.get("message", {}).get("content", ""),
+                    content=msg.get("content", ""),
+                    thinking=msg.get("thinking", ""),
                     done=data.get("done", False),
                     raw=data,
                 )
@@ -100,21 +104,30 @@ class OllamaClient:
     ) -> OllamaResponse:
         """Run a chat completion with streaming, collecting the full response."""
         content_parts: list[str] = []
+        thinking_parts: list[str] = []
         first_token_time: float | None = None
         start_time = time.perf_counter()
         final_raw: dict[str, Any] = {}
 
         async for chunk in self.chat_stream(model, messages, **options):
-            if chunk.content and first_token_time is None:
+            if (chunk.content or chunk.thinking) and first_token_time is None:
                 first_token_time = time.perf_counter()
             content_parts.append(chunk.content)
+            thinking_parts.append(chunk.thinking)
             if chunk.done:
                 final_raw = chunk.raw
 
         end_time = time.perf_counter()
 
+        content = "".join(content_parts)
+        thinking = "".join(thinking_parts)
+        # For reasoning models that put everything in thinking, use that as content
+        if not content.strip() and thinking.strip():
+            content = thinking
+
         return OllamaResponse(
-            content="".join(content_parts),
+            content=content,
+            thinking=thinking,
             model=final_raw.get("model", model),
             done=True,
             total_duration=final_raw.get("total_duration"),
@@ -153,8 +166,14 @@ class OllamaClient:
         end_time = time.perf_counter()
 
         data = resp.json()
+        msg = data.get("message", {})
+        content = msg.get("content", "")
+        thinking = msg.get("thinking", "")
+        if not content.strip() and thinking.strip():
+            content = thinking
         return OllamaResponse(
-            content=data.get("message", {}).get("content", ""),
+            content=content,
+            thinking=thinking,
             model=data.get("model", model),
             done=True,
             total_duration=data.get("total_duration"),

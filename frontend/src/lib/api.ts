@@ -74,6 +74,17 @@ export interface LeaderboardEntry {
   avg_tokens_per_sec: number | null;
 }
 
+export interface RunStatus {
+  batch_id: string;
+  status: string;
+  error?: string;
+  started_at?: string;
+  target_models?: string[];
+  current_model?: string | null;
+  completed_tasks?: number;
+  total_tasks?: number;
+}
+
 export interface OllamaModel {
   name: string;
   size: number;
@@ -131,14 +142,22 @@ export const api = {
   getPromptResults: (promptId: string) =>
     fetchJSON<{ results: ResultDoc[]; total: number }>(`/prompts/${promptId}/results`),
 
-  startRun: (body: { prompts_dir?: string; batch_id?: string }) =>
-    fetchJSON<{ batch_id: string; status: string }>('/runs', {
+  startRun: (body: { prompts_dir?: string; batch_id?: string; target_models?: string[]; evaluation_enabled?: boolean }) =>
+    fetchJSON<{ batch_id: string; status: string; message?: string }>('/runs', {
       method: 'POST',
       body: JSON.stringify(body),
     }),
 
   getRunStatus: (batchId: string) =>
-    fetchJSON<{ batch_id: string; status: string }>(`/runs/${batchId}`),
+    fetchJSON<RunStatus>(`/runs/${batchId}`),
+
+  listActiveRuns: () =>
+    fetchJSON<{ runs: RunStatus[]; total: number }>('/runs'),
+
+  cancelRun: (batchId: string) =>
+    fetchJSON<{ batch_id: string; status: string }>(`/runs/${batchId}/cancel`, {
+      method: 'POST',
+    }),
 
   listOllamaModels: () =>
     fetchJSON<{ models: OllamaModel[]; error?: string }>('/models/available'),

@@ -1,10 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, FlaskConical, HardDrive, LayoutDashboard, ListOrdered, MessageSquare } from 'lucide-react';
+import { BarChart3, FlaskConical, HardDrive, LayoutDashboard, ListOrdered, MessageSquare, Play } from 'lucide-react';
 import { useHealth } from '@/hooks/use-metrics';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/run', label: 'Start Run', icon: Play },
   { to: '/leaderboard', label: 'Leaderboard', icon: ListOrdered },
   { to: '/models', label: 'Models', icon: FlaskConical },
   { to: '/prompts', label: 'Prompts', icon: MessageSquare },

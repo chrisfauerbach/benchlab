@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import uuid
+from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
@@ -19,6 +20,11 @@ router = APIRouter(prefix="/runs", tags=["runs"])
 
 # Track active runs
 _active_runs: dict[str, dict[str, Any]] = {}
+
+
+def _sanitize_run(run: dict[str, Any]) -> dict[str, Any]:
+    """Strip internal keys (prefixed with _) before returning to clients."""
+    return {k: v for k, v in run.items() if not k.startswith("_")}
 
 
 async def _execute_run(batch_id: str, request: RunRequest) -> None:
@@ -39,8 +45,28 @@ async def _execute_run(batch_id: str, request: RunRequest) -> None:
         storage = ElasticsearchStorage(config.elasticsearch)
         runner = BatchRunner(config, ollama, storage)
 
+        # Compute total tasks and populate enriched tracking data
+        total_tasks = (
+            len(prompts)
+            * len(config.target_models)
+            * config.run.repetitions
+        )
+        _active_runs[batch_id].update({
+            "started_at": datetime.now(timezone.utc).isoformat(),
+            "target_models": [m.name for m in config.target_models],
+            "current_model": None,
+            "completed_tasks": 0,
+            "total_tasks": total_tasks,
+            "_runner": runner,
+        })
+
+        def on_progress(current_model: str, completed: int, total: int) -> None:
+            if batch_id in _active_runs:
+                _active_runs[batch_id]["current_model"] = current_model
+                _active_runs[batch_id]["completed_tasks"] = completed
+
         try:
-            await runner.run(prompts, batch_id=batch_id)
+            await runner.run(prompts, batch_id=batch_id, on_progress=on_progress)
             _active_runs[batch_id]["status"] = "completed"
         finally:
             await ollama.close()
@@ -67,10 +93,22 @@ async def start_run(
     return {"batch_id": batch_id, "status": "starting", "message": "Batch run started"}
 
 
+@router.get("")
+async def list_runs() -> dict[str, Any]:
+    """List all active (non-terminal) runs."""
+    active_statuses = {"starting", "running", "cancelling"}
+    runs = [
+        _sanitize_run(run)
+        for run in _active_runs.values()
+        if run["status"] in active_statuses
+    ]
+    return {"runs": runs, "total": len(runs)}
+
+
 @router.get("/{batch_id}")
 async def get_run_status(batch_id: str) -> dict[str, Any]:
     if batch_id in _active_runs:
-        return _active_runs[batch_id]
+        return _sanitize_run(_active_runs[batch_id])
     # Check ES for completed runs
     storage = get_storage()
     summary = await storage.get_batch_summary(batch_id)
@@ -87,4 +125,7 @@ async def cancel_run(batch_id: str) -> dict[str, Any]:
         raise HTTPException(400, f"Run {batch_id} is not running")
 
     _active_runs[batch_id]["status"] = "cancelling"
+    runner = _active_runs[batch_id].get("_runner")
+    if runner:
+        runner.cancel()
     return {"batch_id": batch_id, "status": "cancelling"}

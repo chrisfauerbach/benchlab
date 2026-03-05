@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import time
 import uuid
+from collections.abc import Callable
 from typing import Any
 
 from rich.console import Console
@@ -47,6 +48,7 @@ class BatchRunner:
         self,
         prompts: list[Prompt],
         batch_id: str | None = None,
+        on_progress: Callable[[str, int, int], None] | None = None,
     ) -> BatchSummary:
         """Execute a full batch run."""
         batch_id = batch_id or uuid.uuid4().hex[:12]
@@ -78,6 +80,8 @@ class BatchRunner:
             * self.config.run.repetitions
         )
 
+        completed_count = 0
+
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
@@ -94,6 +98,7 @@ class BatchRunner:
                 model_cfg: Any,
                 rep: int,
             ) -> ResultDocument | None:
+                nonlocal completed_count
                 if self._cancelled:
                     return None
                 async with sem:
@@ -101,6 +106,9 @@ class BatchRunner:
                         prompt, model_cfg, rep, batch_id
                     )
                     progress.advance(task)
+                    completed_count += 1
+                    if on_progress:
+                        on_progress(model_cfg.name, completed_count, total_tasks)
                     return result
 
             tasks = [
@@ -192,6 +200,7 @@ class BatchRunner:
             )
             metrics = MetricsCalculator.from_response(response)
 
+            has_output = bool(response.content.strip())
             return ResultDocument(
                 batch_id=batch_id,
                 result_id=result_id,
@@ -212,7 +221,8 @@ class BatchRunner:
                     parameters=model_cfg.parameters,
                 ),
                 output=response.content,
-                success=True,
+                success=has_output,
+                error="Empty response from model" if not has_output else None,
                 metrics=metrics,
             )
         except Exception as e:
